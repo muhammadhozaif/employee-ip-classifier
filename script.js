@@ -1,5 +1,6 @@
 const fs = require("fs");
 const http = require("http");
+
 let filenames = [
   "employees1.json",
   "employees2.json",
@@ -10,12 +11,13 @@ let filenames = [
   "employees7.json",
 ];
 
-//read files
+// Read files
 let totalData = filenames.map((filename) => {
   let data = fs.readFileSync(filename, "utf-8");
   return JSON.parse(data);
 });
-//combine all the data of the json files
+
+// Combine all the data of the JSON files
 let combineData = [
   ...totalData[0],
   ...totalData[1],
@@ -25,38 +27,49 @@ let combineData = [
   ...totalData[5],
   ...totalData[6],
 ];
-//make a single file for the combined data
-combineDataString = JSON.stringify(combineData);
+
+// Make a single file for the combined data
+let combineDataString = JSON.stringify(combineData);
 fs.writeFileSync("combined.json", combineDataString);
 
-//make the files for different class ip addresses
-fs.writeFileSync("classA.txt", "");
-fs.writeFileSync("classB.txt", "");
-fs.writeFileSync("classC.txt", "");
-fs.writeFileSync("classD.txt", "");
-fs.writeFileSync("classE.txt", "");
-//write data to files based on the class
+// Prepare the arrays for different class IP addresses
+let classAData = [];
+let classBData = [];
+let classCData = [];
+let classDData = [];
+let classEData = [];
+
+// Write data to the respective class arrays based on the IP address class
 for (let data of combineData) {
   let octects = data.ipAddress.split(".");
-  firstOctect = parseInt(octects[0]);
+  let firstOctect = parseInt(octects[0]);
   let object = JSON.stringify(data);
+
   if (firstOctect >= 0 && firstOctect <= 126) {
-    fs.appendFileSync("classA.txt", `${object} \n`);
+    classAData.push(object);
   }
   if (firstOctect >= 128 && firstOctect <= 191) {
-    fs.appendFileSync("classB.txt", `${object} \n`);
+    classBData.push(object);
   }
   if (firstOctect >= 192 && firstOctect <= 223) {
-    fs.appendFileSync("classC.txt", `${object} \n`);
+    classCData.push(object);
   }
   if (firstOctect >= 224 && firstOctect <= 239) {
-    fs.appendFileSync("classD.txt", `${object} \n`);
+    classDData.push(object);
   }
   if (firstOctect >= 240 && firstOctect <= 255) {
-    fs.appendFileSync("classE.txt", `${object} \n`);
+    classEData.push(object);
   }
 }
-// //create server and routes
+
+// Write all the collected data to their respective files in one go
+fs.writeFileSync("classA.txt", classAData.join("\n"));
+fs.writeFileSync("classB.txt", classBData.join("\n"));
+fs.writeFileSync("classC.txt", classCData.join("\n"));
+fs.writeFileSync("classD.txt", classDData.join("\n"));
+fs.writeFileSync("classE.txt", classEData.join("\n"));
+
+// Create server and routes
 http
   .createServer((request, response) => {
     if (request.url === "favicon/icon") return response.end();
@@ -82,3 +95,18 @@ http
   .listen(8080, () => {
     console.log("listening on port 8080");
   });
+
+// Part 2: Remove class E employees
+function removeEClassEmployees() {
+  let totalCombinedData = fs.readFileSync("combined.json", "utf-8");
+  let parsedTotalCombinedData = JSON.parse(totalCombinedData);
+  let filteredEClass = parsedTotalCombinedData.filter((data) => {
+    let octects = data.ipAddress.split(".");
+    let firstOctect = parseInt(octects[0]);
+    return !(firstOctect >= 240 && firstOctect <= 255);
+  });
+  let filteredEClassString = JSON.stringify(filteredEClass);
+  fs.writeFileSync("combined.json", filteredEClassString);
+}
+
+removeEClassEmployees();
