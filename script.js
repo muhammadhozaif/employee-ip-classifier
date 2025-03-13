@@ -120,3 +120,13 @@ function updateClassDEmployees() {
   let parsedTotalCombinedDataString = JSON.stringify(parsedTotalCombinedData);
   fs.writeFileSync("combined.json", parsedTotalCombinedDataString);
 }
+function insertNewEmployees() {
+  let data = fs.readFileSync("addedEmployees.json", "utf-8");
+  let data2 = fs.readFileSync("combined.json", "utf-8");
+  let jsondata = JSON.parse(data);
+  let jsondata2 = JSON.parse(data2);
+  let data3 = [...jsondata2, ...jsondata];
+  let stringversion = JSON.stringify(data3);
+  fs.writeFileSync("combined.json", stringversion);
+}
+insertNewEmployees();
