@@ -106,5 +106,17 @@ function removeEClassEmployees() {
   let filteredEClassString = JSON.stringify(filteredEClass);
   fs.writeFileSync("combined.json", filteredEClassString);
 }
+function updateClassDEmployees() {
+  let totalCombinedData = fs.readFileSync("combined.json", "utf-8");
+  let parsedTotalCombinedData = JSON.parse(totalCombinedData);
 
-removeEClassEmployees();
+  for (let data of parsedTotalCombinedData) {
+    let octects = data.ipAddress.split(".");
+    let firstOctect = parseInt(octects[0]);
+    if (firstOctect >= 224 && firstOctect <= 239) {
+      data.department = "XYZ CORP";
+    }
+  }
+  let parsedTotalCombinedDataString = JSON.stringify(parsedTotalCombinedData);
+  fs.writeFileSync("combined.json", parsedTotalCombinedDataString);
+}
