@@ -11,7 +11,6 @@ let filenames = [
   "employees7.json",
 ];
 
-// Read files
 let totalData = filenames.map((filename) => {
   let data = fs.readFileSync(filename, "utf-8");
   return JSON.parse(data);
@@ -62,7 +61,6 @@ for (let data of combineData) {
   }
 }
 
-// Write all the collected data to their respective files in one go
 fs.writeFileSync("classA.txt", classAData.join("\n"));
 fs.writeFileSync("classB.txt", classBData.join("\n"));
 fs.writeFileSync("classC.txt", classCData.join("\n"));
@@ -96,7 +94,7 @@ http
     console.log("listening on port 8080");
   });
 
-// Part 2: Remove class E employees
+// Part2: Remove class E employees
 function removeEClassEmployees() {
   let totalCombinedData = fs.readFileSync("combined.json", "utf-8");
   let parsedTotalCombinedData = JSON.parse(totalCombinedData);
