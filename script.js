@@ -16,7 +16,7 @@ let totalData = filenames.map((filename) => {
   return JSON.parse(data);
 });
 //combine all the data of the json files
-let combinedata = [
+let combineData = [
   ...totalData[0],
   ...totalData[1],
   ...totalData[2],
@@ -25,6 +25,9 @@ let combinedata = [
   ...totalData[5],
   ...totalData[6],
 ];
+//make a single file for the combined data
+combineDataString = JSON.stringify(combineData);
+fs.writeFileSync("combined.json", combineDataString);
 
 //make the files for different class ip addresses
 fs.writeFileSync("classA.txt", "");
@@ -33,7 +36,7 @@ fs.writeFileSync("classC.txt", "");
 fs.writeFileSync("classD.txt", "");
 fs.writeFileSync("classE.txt", "");
 //write data to files based on the class
-for (let data of combinedata) {
+for (let data of combineData) {
   let octects = data.ipAddress.split(".");
   firstOctect = parseInt(octects[0]);
   let object = JSON.stringify(data);
