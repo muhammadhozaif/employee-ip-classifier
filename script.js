@@ -1,6 +1,5 @@
 const fs = require("fs");
 const http = require("http");
-const { json } = require("stream/consumers");
 
 let filenames = [
   "employees1.json",
@@ -73,19 +72,19 @@ http
   .createServer((request, response) => {
     if (request.url === "/favicon.ico") return response.end();
     else if (request.url === "/api/employees/classA") {
-      classA = fs.readFileSync("classA.txt", "utf-8");
+      let classA = fs.readFileSync("classA.txt", "utf-8");
       response.end(classA);
     } else if (request.url === "/api/employees/classB") {
-      classB = fs.readFileSync("classB.txt", "utf-8");
+      let classB = fs.readFileSync("classB.txt", "utf-8");
       response.end(classB);
     } else if (request.url === "/api/employees/classC") {
-      classC = fs.readFileSync("classC.txt", "utf-8");
+      let classC = fs.readFileSync("classC.txt", "utf-8");
       response.end(classC);
     } else if (request.url === "/api/employees/classD") {
-      classD = fs.readFileSync("classD.txt", "utf-8");
+      let classD = fs.readFileSync("classD.txt", "utf-8");
       response.end(classD);
     } else if (request.url === "/api/employees/classE") {
-      classE = fs.readFileSync("classE.txt", "utf-8");
+      let classE = fs.readFileSync("classE.txt", "utf-8");
       response.end(classE);
     } else {
       response.end("invalid");
@@ -141,7 +140,5 @@ function returnClassCEmployees() {
     firstOctect = parseInt(octects[0]);
     return firstOctect >= 192 && firstOctect <= 223;
   });
+  return CClass;
 }
-// let cClass = returnClassCEmployees();
-// console.log(cClass);
-removeEClassEmployees();
