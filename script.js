@@ -1,5 +1,6 @@
 const fs = require("fs");
 const http = require("http");
+const { json } = require("stream/consumers");
 
 let filenames = [
   "employees1.json",
@@ -70,7 +71,7 @@ fs.writeFileSync("classE.txt", classEData.join("\n"));
 // Create server and routes
 http
   .createServer((request, response) => {
-    if (request.url === "favicon/icon") return response.end();
+    if (request.url === "/favicon.ico") return response.end();
     else if (request.url === "/api/employees/classA") {
       classA = fs.readFileSync("classA.txt", "utf-8");
       response.end(classA);
@@ -106,6 +107,7 @@ function removeEClassEmployees() {
   let filteredEClassString = JSON.stringify(filteredEClass);
   fs.writeFileSync("combined.json", filteredEClassString);
 }
+//update class D employees
 function updateClassDEmployees() {
   let totalCombinedData = fs.readFileSync("combined.json", "utf-8");
   let parsedTotalCombinedData = JSON.parse(totalCombinedData);
@@ -120,6 +122,7 @@ function updateClassDEmployees() {
   let parsedTotalCombinedDataString = JSON.stringify(parsedTotalCombinedData);
   fs.writeFileSync("combined.json", parsedTotalCombinedDataString);
 }
+// insert new employees
 function insertNewEmployees() {
   let data = fs.readFileSync("addedEmployees.json", "utf-8");
   let data2 = fs.readFileSync("combined.json", "utf-8");
@@ -129,4 +132,16 @@ function insertNewEmployees() {
   let stringversion = JSON.stringify(data3);
   fs.writeFileSync("combined.json", stringversion);
 }
-insertNewEmployees();
+// return class C employees
+function returnClassCEmployees() {
+  let data = fs.readFileSync("combined.json", "utf-8");
+  let jsonData = JSON.parse(data);
+  let CClass = jsonData.filter((data) => {
+    octects = data.ipAddress.split(".");
+    firstOctect = parseInt(octects[0]);
+    return firstOctect >= 192 && firstOctect <= 223;
+  });
+}
+// let cClass = returnClassCEmployees();
+// console.log(cClass);
+removeEClassEmployees();
