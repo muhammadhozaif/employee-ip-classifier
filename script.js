@@ -105,6 +105,7 @@ function removeEClassEmployees() {
   });
   let filteredEClassString = JSON.stringify(filteredEClass);
   fs.writeFileSync("combined.json", filteredEClassString);
+  fs.writeFileSync("classE.txt", "");
 }
 //update class D employees
 function updateClassDEmployees() {
@@ -142,3 +143,4 @@ function returnClassCEmployees() {
   });
   return CClass;
 }
+updateClassDEmployees();
