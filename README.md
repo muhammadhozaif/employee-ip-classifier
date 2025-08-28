@@ -41,3 +41,16 @@ Update department of Class D employees
 Insert new employees from addedEmployees.json
 
 Return Class C employee data (for internal use)
+Access API Endpoints
+
+Visit in your browser or use curl/Postman:
+
+http://localhost:8080/api/employees/classA
+
+/api/employees/classB
+
+/api/employees/classC
+
+/api/employees/classD
+
+/api/employees/classE
