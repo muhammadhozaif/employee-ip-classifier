@@ -1,0 +1,7 @@
+{
+  "phases": {
+    "install": [],
+    "build": [],
+    "start": ["node script.js"]
+  }
+}
