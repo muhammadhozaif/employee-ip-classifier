@@ -146,4 +146,3 @@ function returnClassCEmployees() {
   });
   return CClass;
 }
-updateClassDEmployees();
